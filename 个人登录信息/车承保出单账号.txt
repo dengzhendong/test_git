@@ -1,0 +1,291 @@
+测试环境地址：
+http://10.182.241.33:7001/CPIC09Auto/pages/index.jsp
+
+分公司用户清单如下，密码都是701701： 
+北京*:  1010100/CT123       京A-D                   天津:   1020100/0025     津A-C
+河北:   1030100/K13001      冀A-H,J,R-T             山西:   1040100/A048     晋A-F,H,J-M
+内蒙:   1050100/003003      蒙A-H,J-M               辽宁:   2010100/104035   辽A-H,J-N,P
+大连:   2020100/JCJ         辽B                     吉林:   2030100/F0006    吉A-H,J
+黑龙江: 2040100/084         黑A-H,J-N,P-R           上海*:  3010100/0209     沪A-D,R
+江苏*:  3020100/11044       苏A-H,J-N               无锡:   3020300/2044     苏B
+常州*:  3020400/4053        苏D                     浙江*:  3030100/0088     浙A-H,J-L
+温州*:  3030400/50071       浙C                     宁波*:  3040100/0014     浙B
+安徽:   3050100/078         皖A-H,J-N,P-S           江西:   3060100/0030     赣A-H,J-M
+福建:   3070100/020216      闽A-H,J,K               厦门:   3080100/170      闽D
+山东*:  3090100/J9871       鲁A-H,J-N,P-S,U,V,Y     青岛:   3100100/070101   鲁B、鲁U
+苏州*:  3110100/50051       苏E                     河南:   4010100/0036     豫A-H,J-N,P-U
+湖北:   4020100/000073      鄂A-H,J-N,P-S           湖南:   4030100/010      湘A-H,J-N,U
+广东:   5010100/121016      粤A-H,J-N,P-Z           东莞:   5010800/D04009   粤S
+深圳*:  5020100/1412        粤B                     海南:   5030100/0221     琼A-E
+广西:   5040100/AA0013      桂A-H,J-N,P,R           四川:   6010100/058      川A-F,H,J-N,P-Z
+重庆:   6020100/005146      渝A-C，F-H              贵州:   6030100/013      贵A-H,J
+云南:   6040100/079         云A-H,J-N,P-S           陕西:   7010100/00112    陕A-H,J,K,V,O
+甘肃:   7020100/0108        甘A-H,J-N,P             新疆:   7030100/0074     新A-H,J-P,Q-R
+宁夏:   7040100/CHX         宁A-E                   青海:   7050100/YG1001   青A-H
+西藏:   7060100/999 经办人：201309        藏 201309 taotao PMP_045                    总公司：9010100/#05006  
+
+集中两核系统：
+http://10.182.176.112:7001/Login.jsp
+账号：分公司代码/1120/1120
+
+支付平台地址：
+http://10.182.235.62:7022/login.jsp
+账号：cpic/123
+
+***北京划卡支付终端号：53123032 
+
+上海_特种车投保	
+上海_单程车投保
+上海_摩托车投保	
+上海_交强险投保	
+上海_机动车投保
+
+tc_AH_JDCTB 安徽_机动车投保
+    uk_P09dl    
+    uk_cdxz    投保-录入    #菜单选择
+    uk_tb_xzxz    ${tb_xzxz}    #险种选择
+    Sleep    10    
+    uk_toubao_jbxx    #基本信息
+    Sleep    1    
+    ${tb_yddh}    uk_toubao_khxx    #客户信息
+    Sleep    1    
+    uk_AH_toubao_clxx    #车辆信息
+    uk_tb_zxxx    #子险信息
+    uk_AH_tb_ccs    #车船税
+    Sleep    5    
+    uk_tb_zc    
+    ${tbdh1}    ${tbdh2}    uk_tb_hqtbdh    
+    uk_tb_bfjs    
+    uk_tb_yhb    #预核保
+    uk_tb_tj_dbd    #提交审核
+    ${bdzt1}    uk_tb_hqbdzt    
+    run keyword if    "${bdzt1}"=="待初审"    Run Keyword And Ignore Error    uk_tb_dcs    
+    run keyword if    "${bdzt1}"=="待核保"    Run Keyword And Ignore Error    uk_tb_tbdh2_dhb    #输入投保单号2
+    ${bdzt2}    uk_tb_hqbdzt    
+    run keyword if    "${bdzt2}"!="核保通过"    uk_lhxt_sh    #两核系统审核
+    ${bdh1}    uk_tb_hqbdh
+    ${bdh2}    run keyword if    "${tbdh2}"!=""    uk_tb_tbdh2_hbtg    #输入投保单号2
+    Sleep    5    
+    Unselect Frame    
+    uk_cdxz    见费出单-划卡    
+    ${tb_zfh}    uk_jfcd_hk_zffs    #见费出单划卡
+    uk_zfxt_zf    #支付系统-支付
+    uk_P09dl    
+    ${bdzt3}    uk_tb_hqbdzt    
+    Close All Browsers
+    [Teardown]    Close All Browsers     
+
+tc_AH_JQXTB  安徽_交强险投保
+    uk_P09dl    
+    uk_cdxz    投保-录入    #菜单选择
+    uk_tb_xzxz    ${tb_xzxz}    #险种选择
+    Sleep    5    
+    uk_jqx_jbxx    
+    Sleep    1    
+    ${tb_yddh}    uk_jqx_khxx    
+    Sleep    1    
+    uk_jqx_clxx    
+    Sleep    1    
+    uk_AH_tb_ccs    #车船税
+    Sleep    5    
+    uk_tb_zc    
+    ${tbdh1}    uk_tb_hqtbdh_JQX
+    ${tbdh2}    SET VARIABLE    
+    uk_tb_bfjs    
+    uk_tb_yhb    #预核保
+    uk_tb_tj    #提交审核
+    ${bdzt1}    uk_tb_hqbdzt_JQX    
+    run keyword if    "${bdzt1}"=="待初审"    Run Keyword And Ignore Error    uk_tb_dcs    
+    run keyword if    "${bdzt1}"=="待核保"    Run Keyword And Ignore Error    uk_tb_tbdh2_dhb    #输入投保单号2
+    ${bdzt2}    uk_tb_hqbdzt_JQX    
+    run keyword if    "${bdzt2}"!="核保通过"    uk_lhxt_sh    #两核系统审核
+    ${bdh1}    uk_tb_hqbdh
+    Sleep    5    
+    Unselect Frame    
+    uk_cdxz    见费出单-划卡    
+    ${tb_zfh}    uk_jfcd_hk_zffs_djqx    #见费出单划卡
+    uk_zfxt_zf    #支付系统-支付
+    uk_P09dl    
+    ${bdzt3}    uk_tb_hqbdzt_JQX    
+    [Teardown]    Close All Browsers   
+
+tc_AH_MTCTB 安徽_摩托车投保 
+    uk_P09dl    
+    uk_cdxz    投保-录入    #菜单选择
+    uk_tb_xzxz    ${tb_xzxz}    #险种选择
+    Sleep    5    
+    uk_mtctlj_jbxx    
+    ${tb_yddh}    uk_mtctlj_khxx    
+    uk_mtctlj_clxx    
+    uk_tb_zxxx    #子险信息
+    uk_mtctlj_ccs    
+    Sleep    5    
+    uk_tb_zc    
+    ${tbdh1}    ${tbdh2}    uk_tb_hqtbdh_MTC    
+    uk_tb_bfjs    
+    uk_tb_yhb    #预核保
+    uk_tb_tj_dbd    #提交审核
+    ${bdzt1}    uk_tb_hqbdzt    
+    run keyword if    "${bdzt1}"=="待初审"    Run Keyword And Ignore Error    uk_tb_dcs    
+    run keyword if    "${bdzt1}"=="待核保"    Run Keyword And Ignore Error    uk_tb_tbdh2_dhb    #输入投保单号2
+    ${bdzt2}    uk_tb_hqbdzt    
+    run keyword if    "${bdzt2}"!="核保通过"    uk_lhxt_sh    #两核系统审核
+    ${bdzt0}    uk_tb_hqbdzt    
+    run keyword if    "${bdzt0}"=="待核保"    uk_lhxt_sh_ZGS    #两核系统审核
+    Close All Browsers    
+    uk_P09dl    
+    ${bdzt01}    uk_tb_hqbdzt    
+    Unselect Frame    
+    Wait Until Page Contains Element    name=centerContentFrame    20    error    
+    Select Frame    name=centerContentFrame    
+    ${bdh1}    Get Text    xpath=//*[@id="queryForm$CT"]/tbody/tr/td[3]/div    #获取商业险保单号
+    ${bdh2}    run keyword if    "${tbdh2}"!=""    uk_tb_tbdh2_hbtg    #输入投保单号2
+    Sleep    5    
+    Unselect Frame    
+    uk_cdxz    见费出单-划卡    
+    ${tb_zfh}    uk_jfcd_hk_zffs    #见费出单划卡
+    uk_zfxt_zf    #支付系统-支付
+    uk_P09dl    
+    ${bdzt3}    uk_tb_hqbdzt    
+    Close All Browsers    
+
+
+tc_AH_DCCTB  安徽_单程车投保
+    uk_P09dl    
+    uk_cdxz    投保-录入    #菜单选择
+    uk_tb_xzxz    ${tb_xzxz}    #险种选择
+    Sleep    5    
+    uk_dctc_jbxx    
+    ${tb_yddh}    uk_dctc_khxx    
+    ${jy_bbxrmc}    ${jy_bzjhm}    uk_dctc_clxx    
+    uk_tb_zxxx    #子险信息
+    Sleep    5    
+    uk_tb_zc    
+    ${tbdh1}    ${tbdh2}    uk_tb_hqtbdh_dcc    
+    uk_tb_bfjs    
+    uk_tb_yhb    #预核保
+    uk_tb_tj_dbd    #提交审核
+    ${bdzt1}    uk_tb_hqbdzt    
+    run keyword if    "${bdzt1}"=="待初审"    Run Keyword And Ignore Error    uk_tb_dcs    
+    run keyword if    "${bdzt1}"=="待核保"    Run Keyword And Ignore Error    uk_tb_tbdh2_dhb    #输入投保单号2
+    ${bdzt2}    uk_tb_hqbdzt    
+    run keyword if    "${bdzt2}"!="核保通过"    uk_lhxt_sh    #两核系统审核
+    ${bdh1}    uk_tb_hqbdh
+    ${bdh2}    run keyword if    "${tbdh2}"!=""    uk_tb_tbdh2_hbtg    #输入投保单号2
+    Sleep    5    
+    Unselect Frame    
+    uk_cdxz    见费出单-划卡    
+    ${tb_zfh}    uk_jfcd_hk_zffs    #见费出单划卡
+    uk_zfxt_zf    #支付系统-支付
+    uk_P09dl    
+    ${bdzt3}    uk_tb_hqbdzt    
+    Close All Browsers  
+    [Teardown]    Close All Browsers   
+
+tc_AH_TZCTB  安徽_特种车投保
+   uk_P09dl    
+    uk_cdxz    投保-录入    #菜单选择
+    uk_tb_xzxz    ${tb_xzxz}    #险种选择
+    Sleep    5    
+    uk_toubao_jbxx    #基本信息
+    ${tb_yddh}    uk_toubao_khxx    #客户信息
+    uk_tb_clxx_tzc_ah    
+    uk_tb_zxxx    #子险信息
+    uk_tb_ccs    #车船税
+    Sleep    5    
+    uk_tb_zc    
+    ${tbdh1}    ${tbdh2}    uk_tb_hqtbdh    
+    uk_tb_bfjs    
+    uk_tb_yhb    #预核保
+    uk_tb_tj_dbd    #提交审核
+    ${bdzt1}    uk_tb_hqbdzt    
+    run keyword if    "${bdzt1}"=="待初审"    uk_tb_dcs2    
+    run keyword if    "${bdzt1}"=="待核保"    Run Keyword And Ignore Error    uk_tb_tbdh2_dhb    #输入投保单号2
+    ${bdzt2}    uk_tb_hqbdzt    
+    run keyword if    "${bdzt2}"!="核保通过"    uk_lhxt_sh    #两核系统审核
+    ${bdh1}    uk_tb_hqbdh    
+    ${bdh2}    run keyword if    "${tbdh2}"!=""    uk_tb_tbdh2_hbtg    #输入投保单号2
+    Sleep    5    
+    Unselect Frame    
+    uk_cdxz    见费出单-划卡    
+    ${tb_zfh}    uk_jfcd_hk_zffs    #见费出单划卡
+    uk_zfxt_zf    #支付系统-支付
+    uk_P09dl    
+    ${bdzt3}    uk_tb_hqbdzt    
+    Close All Browsers
+    [Teardown]    Close All Browsers     
+
+
+*** Keywords ***
+uk_P09InsuranceTypeFor
+    [Arguments]    @{09xb}
+    @{09xbc}    Split String    @{09xb}[${var}]    \|    #按照|拆分
+    log    @{09xbc}[0]    
+    log    @{09xbc}[1]    
+    ${text}    Get Text    xpath=//*[text()="@{09xbc}[0]"]    
+    Run Keyword And Ignore Error    Click Element    xpath=//*[text()="@{09xbc}[0]"]/following-sibling::td[1]//input    #点击险种
+    Sleep    3    
+    run keyword if    "@{09xbc}[0]"=="玻璃单独破碎险"    Run Keyword And Ignore Error    Click Element    id=formGLASSBROKENCOVERAGE_editor_GLASSBROKENCOVERAGE_select        #玻璃单独破碎险
+    run keyword if    "@{09xbc}[0]"=="自燃损失险"    Run Keyword And Ignore Error    Click Element    id=formSELFIGNITECOVERAGE_editor_SELFIGNITECOVERAGE_select        #自燃损失险
+    run keyword if    "@{09xbc}[0]"=="车身划痕损失险"    Run Keyword And Ignore Error    Click Element    id=formCARBODYPAINTCOVERAGE_editor_CARBODYPAINTCOVERAGE_select        #车身划痕损失险
+    run keyword if    "@{09xbc}[0]"=="玻璃单独破碎险"    Run Keyword And Ignore Error    Click Element    id=formGLASSBROKENCOVERAGE_editor_GLASSBROKENCOVERAGE_GLASSMANUFACTURER        #点击下拉框
+    run keyword if    "@{09xbc}[0]"=="玻璃单独破碎险"    Run Keyword And Ignore Error    Click Element    xpath=//*[@id="dropdownGlassManufacturer$E9$CT"]/tbody/tr/td/div[text()="@{09xbc}[2]"]        #点击玻璃产地
+    run keyword if    "@{09xbc}[0]"=="车身划痕损失险"    Run Keyword And Ignore Error    Wait Until Page Contains Element    id=formCARBODYPAINTCOVERAGE_editor_CARBODYPAINTCOVERAGE_SUMINSURED    20    error    
+    run keyword if    "@{09xbc}[0]"=="车身划痕损失险"    Run Keyword And Ignore Error    Click Element    id=formCARBODYPAINTCOVERAGE_editor_CARBODYPAINTCOVERAGE_SUMINSURED        #点击下拉
+    run keyword if    "@{09xbc}[0]"=="车身划痕损失险"    Run Keyword And Ignore Error    Wait Until Page Contains Element    xpath=//*[@title="@{09xbc}[2]"]    20    error    
+    run keyword if    "@{09xbc}[0]"=="车身划痕损失险"    Run Keyword And Ignore Error    Click Element    xpath=//*[@title="@{09xbc}[2]"]        #点击金额
+    run keyword if    "@{09xbc}[1]"=="无"    Run Keyword And Ignore Error    log    没有保险金额        #打印log
+    run keyword if    "@{09xbc}[1]"=="选择输入"    Run Keyword And Ignore Error    uk_P09Vehicle_Select        #输入金额
+    run keyword if    "@{09xbc}[1]"=="输入"    Run Keyword And Ignore Error    Input Text    xpath=//*[text()="@{09xbc}[0]"]/following-sibling::td[2]//input    @{09xbc}[2]        #输入金额
+
+
+
+*** Keywords ***
+uk_P09InsuranceTypeFor
+    [Arguments]    @{09xb}
+    @{09xbc}    Split String    @{09xb}[${var}]    \|    #按照|拆分
+    log    @{09xbc}[0]    
+    log    @{09xbc}[1]    
+    ${text}    Get Text    xpath=//*[text()="@{09xbc}[0]"]    
+    Run Keyword And Ignore Error    Click Element    xpath=//*[text()="@{09xbc}[0]"]/following-sibling::td[1]//input    #点击险种
+    Sleep    3    
+    run keyword if    "@{09xbc}[0]"=="交强险"    Run Keyword And Ignore Error    Click Element    id=formTRAFFICCOMPULSORYPRODUCT_editor_TRAFFICCOMPULSORYPRODUCT_select        #交强险
+    run keyword if    "@{09xbc}[0]"=="机动车损失险"    Run Keyword And Ignore Error    Click Element    id=formDAMAGELOSSCOVERAGE_editor_DAMAGELOSSCOVERAGE_select        #机动车损失险
+    run keyword if    "@{09xbc}[0]"=="机动车损失险"    Run Keyword And Ignore Error    Click Element    id=formMOTORTRACTORDAMAGELOSSCOVERAGE_editor_MOTORTRACTORDAMAGELOSSCOVERAGE_select        #机动车损失险
+    run keyword if    "@{09xbc}[0]"=="机动车损失险"    Run Keyword And Ignore Error    Click Element    id=formPICKUPCARDAMAGELOSSCOVERAGE_editor_PICKUPCARDAMAGELOSSCOVERAGE_select        #机动车损失险
+    run keyword if    "@{09xbc}[0]"=="机动车损失险"    Run Keyword And Ignore Error    Click Element    id=formSPECIALCARDAMAGELOSSCOVERAGE_editor_SPECIALCARDAMAGELOSSCOVERAGE_select        #机动车损失险
+    run keyword if    "@{09xbc}[0]"=="第三者责任险"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formTHIRDPARTYLIABILITYCOVERAGE_editor_THIRDPARTYLIABILITYCOVERAGE_select').click()        #第三者责任险
+    run keyword if    "@{09xbc}[0]"=="第三者责任险"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formMOTORTRACTORTHIRDPARTYLIABILITYCOVERAGE_editor_MOTORTRACTORTHIRDPARTYLIABILITYCOVERAGE_select').click()        #第三者责任险
+    run keyword if    "@{09xbc}[0]"=="第三者责任险"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formPICKUPCARTHIRDPARTYLIABILITYCOVERAGE_editor_PICKUPCARTHIRDPARTYLIABILITYCOVERAGE_select').click()        #第三者责任险
+    run keyword if    "@{09xbc}[0]"=="第三者责任险"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formSPECIALCARTHIRDPARTYLIABILITYCOVERAGE_editor_SPECIALCARTHIRDPARTYLIABILITYCOVERAGE_select').click()        #第三者责任险
+    run keyword if    "@{09xbc}[0]"=="第三者责任险" and"@{09xbc}[1]"=="输入"    Run Keyword And Ignore Error    Input Text    id=saEditor2    @{09xbc}[2]        #输入金额
+    run keyword if    "@{09xbc}[0]"=="司机"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formINCARDRIVERLIABILITYCOVERAGE_editor_INCARDRIVERLIABILITYCOVERAGE_select').click()        #司机
+    run keyword if    "@{09xbc}[0]"=="司机"and"@{09xbc}[1]"=="输入"    Run Keyword And Ignore Error    Input Text    id=formINCARDRIVERLIABILITYCOVERAGE_editor_INCARDRIVERLIABILITYCOVERAGE_SUMINSURED    @{09xbc}[2]        #输入金额
+    run keyword if    "@{09xbc}[0]"=="司机"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formINMOTORTRACTORDRIVERLIABILITYCOVERAGE_editor_INMOTORTRACTORDRIVERLIABILITYCOVERAGE_select').click()        #司机
+    run keyword if    "@{09xbc}[0]"=="司机"and"@{09xbc}[1]"=="输入"    Run Keyword And Ignore Error    Input Text    id=formINMOTORTRACTORDRIVERLIABILITYCOVERAGE_editor_INMOTORTRACTORDRIVERLIABILITYCOVERAGE_SUMINSURED    @{09xbc}[2]        #输入金额
+    run keyword if    "@{09xbc}[0]"=="司机"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formPICKUPCARINCARDRIVERLIABILITYCOVERAGE_editor_PICKUPCARINCARDRIVERLIABILITYCOVERAGE_select').click()        #司机
+    run keyword if    "@{09xbc}[0]"=="司机"and"@{09xbc}[1]"=="输入"    Run Keyword And Ignore Error    Input Text    id=formPICKUPCARINCARDRIVERLIABILITYCOVERAGE_editor_PICKUPCARINCARDRIVERLIABILITYCOVERAGE_SUMINSURED    @{09xbc}[2]        #输入金额
+    run keyword if    "@{09xbc}[0]"=="司机"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formSPECIALCARINCARDRIVERLIABILITYCOVERAGE_editor_SPECIALCARINCARDRIVERLIABILITYCOVERAGE_select').click()        #司机
+    run keyword if    "@{09xbc}[0]"=="司机"and"@{09xbc}[1]"=="输入"    Run Keyword And Ignore Error    Input Text    id=formSPECIALCARINCARDRIVERLIABILITYCOVERAGE_editor_SPECIALCARINCARDRIVERLIABILITYCOVERAGE_SUMINSURED    @{09xbc}[2]        #输入金额
+    run keyword if    "@{09xbc}[0]"=="乘客"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formINCARPASSENGERLIABILITYCOVERAGE_editor_INCARPASSENGERLIABILITYCOVERAGE_select').click()        #乘客
+    run keyword if    "@{09xbc}[0]"=="乘客"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formINMOTORTRACTORPASSENGERLIABILITYCOVERAGE_editor_INMOTORTRACTORPASSENGERLIABILITYCOVERAGE_select').click()        #乘客
+    run keyword if    "@{09xbc}[0]"=="乘客"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formPICKUPCARINCARPASSENGERLIABILITYCOVERAGE_editor_PICKUPCARINCARPASSENGERLIABILITYCOVERAGE_select').click()        #乘客
+    run keyword if    "@{09xbc}[0]"=="乘客"    Run Keyword And Ignore Error    Execute Javascript    document.getElementById('formSPECIALCARINCARPASSENGERLIABILITYCOVERAGE_editor_SPECIALCARINCARPASSENGERLIABILITYCOVERAGE_select').click()        #乘客
+    run keyword if    "@{09xbc}[0]"=="乘客"and"@{09xbc}[1]"=="输入"    Run Keyword And Ignore Error    Input Text    id=editorSumInsured    @{09xbc}[2]        #输入金额
+    run keyword if    "@{09xbc}[0]"=="全车盗抢损失险"    Run Keyword And Ignore Error    Click Element    id=formTHEFTCOVERAGE_editor_THEFTCOVERAGE_select        #全车盗抢损失险
+    run keyword if    "@{09xbc}[0]"=="全车盗抢损失险"    Run Keyword And Ignore Error    Click Element    id=formMOTORTRACTORTHEFTCOVERAGE_editor_MOTORTRACTORTHEFTCOVERAGE_select        #全车盗抢损失险
+    run keyword if    "@{09xbc}[0]"=="全车盗抢损失险"    Run Keyword And Ignore Error    Click Element    id=formSPECIALCARTHEFTCOVERAGE_editor_SPECIALCARTHEFTCOVERAGE_select        #全车盗抢损失险
+    run keyword if    "@{09xbc}[0]"=="玻璃单独破碎险"    Run Keyword And Ignore Error    Click Element    id=formGLASSBROKENCOVERAGE_editor_GLASSBROKENCOVERAGE_select        #玻璃单独破碎险
+    run keyword if    "@{09xbc}[0]"=="自燃损失险"    Run Keyword And Ignore Error    Click Element    id=formSELFIGNITECOVERAGE_editor_SELFIGNITECOVERAGE_select        #自燃损失险
+    run keyword if    "@{09xbc}[0]"=="车身划痕损失险"    Run Keyword And Ignore Error    Click Element    id=formCARBODYPAINTCOVERAGE_editor_CARBODYPAINTCOVERAGE_select        #车身划痕损失险
+    run keyword if    "@{09xbc}[0]"=="玻璃单独破碎险"    Run Keyword And Ignore Error    Click Element    id=formGLASSBROKENCOVERAGE_editor_GLASSBROKENCOVERAGE_GLASSMANUFACTURER        #点击下拉框
+    run keyword if    "@{09xbc}[0]"=="玻璃单独破碎险"    Run Keyword And Ignore Error    Click Element    xpath=//*[@id="dropdownGlassManufacturer$E9$CT"]/tbody/tr/td/div[text()="@{09xbc}[2]"]        #点击玻璃产地
+    run keyword if    "@{09xbc}[0]"=="车身划痕损失险"    Run Keyword And Ignore Error    Wait Until Page Contains Element    id=formCARBODYPAINTCOVERAGE_editor_CARBODYPAINTCOVERAGE_SUMINSURED    20    error    
+    run keyword if    "@{09xbc}[0]"=="车身划痕损失险"    Run Keyword And Ignore Error    Click Element    id=formCARBODYPAINTCOVERAGE_editor_CARBODYPAINTCOVERAGE_SUMINSURED        #点击下拉
+    run keyword if    "@{09xbc}[0]"=="车身划痕损失险"    Run Keyword And Ignore Error    Wait Until Page Contains Element    xpath=//*[@title="@{09xbc}[2]"]    20    error    
+    run keyword if    "@{09xbc}[0]"=="车身划痕损失险"    Run Keyword And Ignore Error    Click Element    xpath=//*[@title="@{09xbc}[2]"]        #点击金额
+    run keyword if    "@{09xbc}[1]"=="无"    Run Keyword And Ignore Error    log    没有保险金额        #打印log
+    run keyword if    "@{09xbc}[1]"=="选择输入"    Run Keyword And Ignore Error    uk_P09Vehicle_Select        #输入金额
+    run keyword if    "@{09xbc}[0]"!="第三者责任险"and"@{09xbc}[0]"!="司机"and"@{09xbc}[0]"!="乘客"and"@{09xbc}[1]"=="输入"    Run Keyword And Ignore Error    Input Text    xpath=//*[text()="@{09xbc}[0]"]/following-sibling::td[2]//input    @{09xbc}[2]        #输入金额
+    Sleep    2    
+
